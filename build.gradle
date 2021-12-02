@@ -1,0 +1,25 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id "io.freefair.lombok" version "6.3.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.logging.log4j:log4j-api:2.14.1'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.8'
+    implementation 'it.unimi.dsi:fastutil:8.5.6'
+
+    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.14.1'
+    runtimeOnly 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
