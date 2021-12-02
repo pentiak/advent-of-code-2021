@@ -1,29 +1,37 @@
 package com.adventofcode.day2;
 
+import com.adventofcode.common.Day;
 import com.adventofcode.utils.InputUtils;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-@Log4j2
-public class Day2 {
+public class Day2 extends Day {
 
-    public static void main(String[] args) {
-        List<Day2Instruction> instructionList = InputUtils.parseLines("day2/input.txt", l -> {
+    private final List<Day2Instruction> instructionList;
+
+    public Day2(String inputPath) {
+        super(inputPath);
+        instructionList = InputUtils.parseLines(inputPath, l -> {
             String[] split = l.split(" ");
             return new Day2Instruction(split[0], Integer.parseInt(split[1]));
         });
-
-        Submarine sub = new SimpleSubmarine();
-        executeInstructions(instructionList, sub);
-        log.info("Part1: {}", sub.getForward() * sub.getDepth());
-
-        Submarine sub2 = new AimingSubmarine();
-        executeInstructions(instructionList, sub2);
-        log.info("Part2: {}", sub2.getForward() * sub2.getDepth());
     }
 
-    private static void executeInstructions(List<Day2Instruction> instructionList, Submarine sub) {
+    @Override
+    public Object part1() {
+        Submarine sub = new SimpleSubmarine();
+        executeInstructions(instructionList, sub);
+        return sub.getForward() * sub.getDepth();
+    }
+
+    @Override
+    public Object part2() {
+        Submarine sub2 = new AimingSubmarine();
+        executeInstructions(instructionList, sub2);
+        return sub2.getForward() * sub2.getDepth();
+    }
+
+    private void executeInstructions(List<Day2Instruction> instructionList, Submarine sub) {
         for (Day2Instruction instruction : instructionList) {
             final int amount = instruction.amount();
             switch (instruction.direction()) {

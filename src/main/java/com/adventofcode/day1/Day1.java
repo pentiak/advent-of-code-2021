@@ -1,28 +1,36 @@
 package com.adventofcode.day1;
 
+import com.adventofcode.common.Day;
 import com.adventofcode.utils.InputUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.stream.Collector;
 
-@Log4j2
-public class Day1 {
-    public static void main(String[] args) {
-        log.info(InputUtils.inputLines("day1/input.txt").map(Integer::valueOf).collect(Collector.<Integer, int[], Integer>of(
+public class Day1 extends Day {
+
+    public Day1(String inputPath) {
+        super(inputPath);
+    }
+
+    @Override
+    public Object part1() {
+        return InputUtils.inputLines(inputPath).map(Integer::valueOf).collect(Collector.of(
                 () -> new int[]{Integer.MAX_VALUE, 0}, (r, v) -> {
                     if (v > r[0]) r[1]++;
                     r[0] = v;
                 }, (r1, r2) -> {
                     throw new IllegalStateException();
-                }, r -> r[1])));
+                }, r -> r[1]));
+    }
 
-        SlidingResultContainer slidingIncreases = InputUtils.inputIntStream("day1/input.txt")
+    @Override
+    public Object part2() {
+        SlidingResultContainer slidingIncreases = InputUtils.inputIntStream(inputPath)
                 .collect(SlidingResultContainer::new, SlidingResultContainer::compareValue, (r1, r2) -> {
                     throw new IllegalStateException();
                 });
-        log.info(slidingIncreases.increases);
+        return slidingIncreases.increases;
     }
 
     private static class SlidingResultContainer {
