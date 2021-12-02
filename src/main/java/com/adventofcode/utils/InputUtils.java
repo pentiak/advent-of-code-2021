@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -77,10 +78,14 @@ public class InputUtils {
 
     public static char[][] inputCharArray(String filePath) {
         List<String> lines = readInputLines(filePath);
-        char[][] result = new char[lines.size()][];
-        for (int i = 0; i < lines.size(); i++) {
+        var result = new char[lines.size()][];
+        for (var i = 0; i < lines.size(); i++) {
             result[i] = lines.get(i).toCharArray();
         }
         return result;
+    }
+
+    public static <T> List<T> parseLines(String filePath, Function<String, T> parser) {
+        return inputLines(filePath).map(parser).toList();
     }
 }
