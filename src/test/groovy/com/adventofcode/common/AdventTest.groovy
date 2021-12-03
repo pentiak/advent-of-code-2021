@@ -2,24 +2,18 @@ package com.adventofcode.common
 
 import spock.lang.Specification
 
+import static com.adventofcode.utils.AdventUtils.newExampleDayInstance
+import static com.adventofcode.utils.AdventUtils.newInputDayInstance
+
 class AdventTest extends Specification {
 
     def "Should give correct results"() {
         given:
-        def exampleDay = Class.forName("com.adventofcode.day" + day + ".Day" + day)
-                .getConstructor(String).newInstance("day" + day + "/example.txt") as Day
-        def inputDay = Class.forName("com.adventofcode.day" + day + ".Day" + day)
-                .getConstructor(String).newInstance("day" + day + "/input.txt") as Day
+        def solver = type == 'input' ? newInputDayInstance(day) : newExampleDayInstance(day)
 
         expect:
-        if (type == 'example') {
-            assert exampleDay.part1() == part1
-            assert exampleDay.part2() == part2
-        }
-        if (type == 'input') {
-            assert inputDay.part1() == part1
-            assert inputDay.part2() == part2
-        }
+        solver.part1() == part1
+        solver.part2() == part2
 
         where:
         day | type      | part1   | part2
