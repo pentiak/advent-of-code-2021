@@ -13,12 +13,12 @@ class AdventTest extends Specification {
 
         expect:
         if (type == 'example') {
-            exampleDay.part1() == part1
-            exampleDay.part2() == part2
+            assert exampleDay.part1() == part1
+            assert exampleDay.part2() == part2
         }
         if (type == 'input') {
-            inputDay.part1() == part1
-            inputDay.part2() == part2
+            assert inputDay.part1() == part1
+            assert inputDay.part2() == part2
         }
 
         where:
@@ -27,5 +27,7 @@ class AdventTest extends Specification {
         1   | 'input'   | 1754    | 1789
         2   | 'example' | 150     | 900
         2   | 'input'   | 1488669 | 1176514794
+        3   | 'example' | 198     | 230
+        3   | 'input'   | 749376  | 2372923
     }
 }
