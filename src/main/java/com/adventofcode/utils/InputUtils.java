@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class InputUtils {
 
     private static final String READ_FAILED = "Can't read file: ";
-    private static final Pattern INPUT_SPLIT = Pattern.compile("\\n\\n");
+    private static final Pattern INPUT_SPLIT = Pattern.compile("\\r?\\n\\r?\\n");
 
     public static Path resourcePath(String filePath) {
         try {

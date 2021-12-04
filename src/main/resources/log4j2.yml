@@ -6,6 +6,6 @@ Configuration:
         Pattern: "%d{HH:mm:ss.SSS} %-5level [%t] %c - %m%n"
   Loggers:
     Root:
-      level: info
+      level: debug
       AppenderRef:
         ref: STDOUT
