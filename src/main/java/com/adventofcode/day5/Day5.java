@@ -2,10 +2,8 @@ package com.adventofcode.day5;
 
 import com.adventofcode.common.AbstractAdventDay;
 import com.adventofcode.utils.InputUtils;
-import groovy.lang.IntRange;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -70,8 +68,14 @@ public class Day5 extends AbstractAdventDay {
 
         private List<Point> getLinearPoints() {
             List<Point> points = new LinkedList<>();
-            for (int x : new IntRange(startPoint.x(), endPoint.x())) {
-                for (int y : new IntRange(startPoint.y(), endPoint.y())) {
+
+            int minX = Math.min(startPoint.x(), endPoint().x());
+            int minY = Math.min(startPoint.y(), endPoint().y());
+            int maxX = Math.max(startPoint.x(), endPoint().x());
+            int maxY = Math.max(startPoint.y(), endPoint().y());
+
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = minY; y <= maxY; y++) {
                     points.add(new Point(x, y));
                 }
             }
@@ -80,11 +84,16 @@ public class Day5 extends AbstractAdventDay {
 
         private List<Point> getDiagonalPoints() {
             List<Point> points = new LinkedList<>();
-            Iterator<Integer> xRangeIt = new IntRange(startPoint.x(), endPoint.x()).iterator();
-            Iterator<Integer> yRangeIt = new IntRange(startPoint.y(), endPoint.y()).iterator();
-            while (xRangeIt.hasNext() && yRangeIt.hasNext()) {
-                points.add(new Point(xRangeIt.next(), yRangeIt.next()));
+
+            int dirX = startPoint().x() <= endPoint().x() ? 1 : -1;
+            int dirY = startPoint().y() <= endPoint().y() ? 1 : -1;
+
+            for (int x = startPoint().x(), y = startPoint().y();
+                 x != endPoint().x() + dirX && y != endPoint().y() + dirY;
+                 x += dirX, y += dirY) {
+                points.add(new Point(x, y));
             }
+
             return points;
         }
     }
