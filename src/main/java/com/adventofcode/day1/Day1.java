@@ -1,17 +1,13 @@
 package com.adventofcode.day1;
 
-import com.adventofcode.common.Day;
+import com.adventofcode.common.AbstractAdventDay;
 import com.adventofcode.utils.InputUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 
 import java.util.stream.Collector;
 
-public class Day1 extends Day {
-
-    public Day1(String inputPath) {
-        super(inputPath);
-    }
+public class Day1 extends AbstractAdventDay {
 
     @Override
     public Object part1() {

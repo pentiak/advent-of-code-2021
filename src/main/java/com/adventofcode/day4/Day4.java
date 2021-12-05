@@ -1,13 +1,14 @@
 package com.adventofcode.day4;
 
-import com.adventofcode.common.Day;
+import com.adventofcode.common.AbstractAdventDay;
 
-public class Day4 extends Day {
+public class Day4 extends AbstractAdventDay {
 
-    private final BingoGame game;
+    private BingoGame game;
 
-    public Day4(String inputPath) {
-        super(inputPath);
+    @Override
+    public void setInputPath(String inputPath) {
+        super.setInputPath(inputPath);
         game = new BingoGame(inputPath);
         game.play();
     }

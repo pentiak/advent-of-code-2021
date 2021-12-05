@@ -1,16 +1,17 @@
 package com.adventofcode.day2;
 
-import com.adventofcode.common.Day;
+import com.adventofcode.common.AbstractAdventDay;
 import com.adventofcode.utils.InputUtils;
 
 import java.util.List;
 
-public class Day2 extends Day {
+public class Day2 extends AbstractAdventDay {
 
-    private final List<Day2Instruction> instructionList;
+    private List<Day2Instruction> instructionList;
 
-    public Day2(String inputPath) {
-        super(inputPath);
+    @Override
+    public void setInputPath(String inputPath) {
+        super.setInputPath(inputPath);
         instructionList = InputUtils.parseLines(inputPath, l -> {
             String[] split = l.split(" ");
             return new Day2Instruction(split[0], Integer.parseInt(split[1]));

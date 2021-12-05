@@ -9,8 +9,9 @@ public class Runner {
         if (args.length != 1) {
             throw new IllegalArgumentException("Need to provide 1 parameter - day number");
         }
-        String dayNumber = args[0];
-        Day day = AdventUtils.newInputDayInstance(Integer.parseInt(dayNumber));
+        int dayNumber = Integer.parseInt(args[0]);
+        AdventDay day = AdventUtils.newAdventDayInstance(dayNumber);
+        day.setInputPath(AdventUtils.getInputPath(dayNumber));
         log.info("Day {}, part {} - {}", dayNumber, 1, day.part1());
         log.info("Day {}, part {} - {}", dayNumber, 2, day.part2());
     }
