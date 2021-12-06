@@ -29,11 +29,14 @@ public class Day6 extends AbstractAdventDay {
     private void evolve(long[] fishes, int days) {
         log.trace("Initial state: {}", fishes);
 
+        int reproductiveIndex = 0;
         for (int day = 0; day < days; day++) {
-            long reproductiveFishes = fishes[0];
-            System.arraycopy(fishes, 1, fishes, 0, fishes.length - 1);
-            fishes[8] = reproductiveFishes;//new borns
-            fishes[6] = fishes[6] + reproductiveFishes;//new cycle
+            long reproductiveFishes = fishes[reproductiveIndex];
+            reproductiveIndex = (reproductiveIndex + 1) % 9;
+            int newbornIndex = (reproductiveIndex + 8) % 9;
+            fishes[newbornIndex] = reproductiveFishes;
+            int newCycleIndex = (reproductiveIndex + 6) % 9;
+            fishes[newCycleIndex] += reproductiveFishes;
             log.trace("After {} day: {}", day + 1, fishes);
         }
     }
