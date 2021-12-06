@@ -29,7 +29,7 @@ public class Day6 extends AbstractAdventDay {
     }
 
     private void evolve(Int2LongMap fishesMap, int days) {
-        log.debug("Initial state: {}", fishesMap);
+        log.trace("Initial state: {}", fishesMap);
 
         for (int day = 0; day < days; day++) {
             long reproductiveFishes = fishesMap.get(0);
@@ -38,7 +38,7 @@ public class Day6 extends AbstractAdventDay {
             }
             fishesMap.put(8, reproductiveFishes);//new borns
             fishesMap.put(6, fishesMap.get(6) + reproductiveFishes);//new cycle
-            log.debug("After {} day: {}", day + 1, fishesMap);
+            log.trace("After {} day: {}", day + 1, fishesMap);
         }
     }
 
