@@ -32,11 +32,8 @@ public class Day6 extends AbstractAdventDay {
         int reproductiveIndex = 0;
         for (int day = 0; day < days; day++) {
             long reproductiveFishes = fishes[reproductiveIndex];
-            reproductiveIndex = (reproductiveIndex + 1) % 9;
-            int newbornIndex = (reproductiveIndex + 8) % 9;
-            fishes[newbornIndex] = reproductiveFishes;
-            int newCycleIndex = (reproductiveIndex + 6) % 9;
-            fishes[newCycleIndex] += reproductiveFishes;
+            reproductiveIndex = (reproductiveIndex + 1) % fishes.length;
+            fishes[(reproductiveIndex + 6) % fishes.length] += reproductiveFishes;
             log.trace("After {} day: {}", day + 1, fishes);
         }
     }
