@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -67,6 +68,8 @@ public class InputUtils {
 
     public static IntStream inputIntStream(String filePath) {
         return inputLines(filePath)
+                .map(l -> l.split(","))
+                .flatMap(Arrays::stream)
                 .mapToInt(Integer::parseInt);
     }
 
