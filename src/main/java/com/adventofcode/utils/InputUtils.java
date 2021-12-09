@@ -88,6 +88,19 @@ public class InputUtils {
         return result;
     }
 
+    public static int[][] inputIntArray(String filePath) {
+        List<String> lines = readInputLines(filePath);
+        var result = new int[lines.size()][];
+        for (var i = 0; i < lines.size(); i++) {
+            char[] chars = lines.get(i).toCharArray();
+            result[i] = new int[chars.length];
+            for (int j = 0; j < chars.length; j++) {
+                result[i][j] = chars[j] - 48;
+            }
+        }
+        return result;
+    }
+
     public static <T> List<T> parseLines(String filePath, Function<String, T> parser) {
         return inputLines(filePath).map(parser).toList();
     }
