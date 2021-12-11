@@ -38,5 +38,7 @@ class AdventTest extends Specification {
         9   | 'input'   | 554     | 1017792
         10  | 'example' | 26397   | 288957
         10  | 'input'   | 311895  | 2904180541
+        11  | 'example' | 1656    | 195
+        11  | 'input'   | 1749    | 285
     }
 }
