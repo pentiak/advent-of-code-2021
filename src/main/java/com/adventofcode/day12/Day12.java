@@ -4,9 +4,7 @@ import com.adventofcode.common.AbstractAdventDay;
 import com.adventofcode.utils.InputUtils;
 import lombok.extern.log4j.Log4j2;
 import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.GraphWalk;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import java.util.*;
@@ -16,22 +14,15 @@ public class Day12 extends AbstractAdventDay {
 
     @Override
     public Object part1() {
-        Graph<Cave, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
-        InputUtils.inputLines(inputPath).map(s -> s.split("-")).forEach(a -> {
-            Cave c1 = new Cave(a[0]);
-            Cave c2 = new Cave(a[1]);
-            graph.addVertex(c1);
-            graph.addVertex(c2);
-            graph.addEdge(c1, c2);
-            graph.addEdge(c2, c1);
-        });
-
-        List<GraphPath<Cave, DefaultEdge>> allPaths = findAllPaths(graph);
-        return allPaths.size();
+        return countAllPaths(buildGraph());
     }
 
     @Override
     public Object part2() {
+        return countAllPathsLenient(buildGraph());
+    }
+
+    private Graph<Cave, DefaultEdge> buildGraph() {
         Graph<Cave, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
         InputUtils.inputLines(inputPath).map(s -> s.split("-")).forEach(a -> {
             Cave c1 = new Cave(a[0]);
@@ -41,19 +32,18 @@ public class Day12 extends AbstractAdventDay {
             graph.addEdge(c1, c2);
             graph.addEdge(c2, c1);
         });
-
-        return countAllPathsV2(graph);
+        return graph;
     }
 
-    private List<GraphPath<Cave, DefaultEdge>> findAllPaths(Graph<Cave, DefaultEdge> graph) {
-        Set<GraphPath<Cave, DefaultEdge>> completedPaths = new HashSet<>();
+    private int countAllPaths(Graph<Cave, DefaultEdge> graph) {
+        int completedPaths = 0;
         Cave startCave = new Cave("start");
         Cave endCave = new Cave("end");
         Deque<List<DefaultEdge>> incompletePaths = new LinkedList<>();
 
         for (DefaultEdge edge : graph.outgoingEdgesOf(startCave)) {
             if (graph.getEdgeTarget(edge).equals(endCave)) {
-                completedPaths.add(new GraphWalk<>(graph, startCave, endCave, Collections.singletonList(edge), 0));
+                completedPaths++;
                 continue;
             }
             incompletePaths.add(Collections.singletonList(edge));
@@ -71,22 +61,22 @@ public class Day12 extends AbstractAdventDay {
             }
 
             for (DefaultEdge edge : graph.outgoingEdgesOf(lastCave)) {
-                List<DefaultEdge> newPath = new ArrayList<>(incompletePath);
-                newPath.add(edge);
                 Cave edgeTarget = graph.getEdgeTarget(edge);
                 if (edgeTarget.equals(endCave)) {
-                    completedPaths.add(new GraphWalk<>(graph, startCave, endCave, newPath, 0));
+                    completedPaths++;
                 } else if (edgeTarget.big() || !visitedCaves.contains(edgeTarget)) {
+                    List<DefaultEdge> newPath = new LinkedList<>(incompletePath);
+                    newPath.add(edge);
                     incompletePaths.addFirst(newPath);
                 }
             }
         }
 
 
-        return List.copyOf(completedPaths);
+        return completedPaths;
     }
 
-    private int countAllPathsV2(Graph<Cave, DefaultEdge> graph) {
+    private int countAllPathsLenient(Graph<Cave, DefaultEdge> graph) {
         int completedPaths = 0;
         Cave startCave = new Cave("start");
         Cave endCave = new Cave("end");
@@ -118,7 +108,6 @@ public class Day12 extends AbstractAdventDay {
                 }
             }
         }
-
 
         return completedPaths;
     }
