@@ -40,7 +40,7 @@ public class Day9 extends AbstractAdventDay {
                     Point lowPoint = new Point(i, j);
                     basin.add(lowPoint);
                     collectHigherPoints(heightMap, lowPoint, basin);
-                    log.info("Basin '{}': {}", lowPoint, basin);
+                    log.trace("Basin '{}': {}", lowPoint, basin);
                     basinSizes.add(basin.size());
                 }
             }

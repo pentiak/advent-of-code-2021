@@ -2,8 +2,6 @@ package com.adventofcode.day12;
 
 import com.adventofcode.common.AbstractAdventDay;
 import com.adventofcode.utils.InputUtils;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.extern.log4j.Log4j2;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -89,62 +87,39 @@ public class Day12 extends AbstractAdventDay {
     }
 
     private int countAllPathsV2(Graph<Cave, DefaultEdge> graph) {
-        Set<GraphPath<Cave, DefaultEdge>> completedPaths = new HashSet<>();
+        int completedPaths = 0;
         Cave startCave = new Cave("start");
         Cave endCave = new Cave("end");
-        Deque<List<DefaultEdge>> incompletePaths = new LinkedList<>();
+        Deque<CavePath> incompletePaths = new LinkedList<>();
 
         for (DefaultEdge edge : graph.outgoingEdgesOf(startCave)) {
-            if (graph.getEdgeTarget(edge).equals(endCave)) {
-                completedPaths.add(new GraphWalk<>(graph, startCave, endCave, Collections.singletonList(edge), 0));
+            Cave targetCave = graph.getEdgeTarget(edge);
+            if (targetCave.equals(endCave)) {
+                completedPaths++;
                 continue;
             }
-            List<DefaultEdge> incompletePath = new LinkedList<>();
-            incompletePath.add(edge);
+            CavePath incompletePath = new CavePath();
+            incompletePath.addCave(targetCave);
             incompletePaths.add(incompletePath);
         }
 
         while (!incompletePaths.isEmpty()) {
-            List<DefaultEdge> incompletePath = incompletePaths.poll();
-            DefaultEdge lastEdge = incompletePath.get(incompletePath.size() - 1);
-            Cave lastCave = graph.getEdgeTarget(lastEdge);
-
-            Object2IntMap<Cave> visitedCaves = new Object2IntOpenHashMap<>();
-            boolean smallVisitedTwice = false;
-            for (DefaultEdge pathEdge : incompletePath) {
-                Cave targetCave = graph.getEdgeTarget(pathEdge);
-                if (targetCave.big()) {
-                    continue;
-                }
-                if (visitedCaves.containsKey(targetCave)) {
-                    visitedCaves.put(targetCave, 2);
-                    smallVisitedTwice = true;
-                } else {
-                    visitedCaves.put(targetCave, 1);
-                }
-            }
+            CavePath incompletePath = incompletePaths.poll();
+            Cave lastCave = incompletePath.getLastCave();
 
             for (DefaultEdge edge : graph.outgoingEdgesOf(lastCave)) {
                 Cave edgeTarget = graph.getEdgeTarget(edge);
                 if (edgeTarget.equals(endCave)) {
-                    LinkedList<DefaultEdge> newPath = new LinkedList<>(incompletePath);
-                    newPath.add(edge);
-                    completedPaths.add(new GraphWalk<>(graph, startCave, endCave, newPath, 0));
-                } else if (!edgeTarget.equals(startCave) && (edgeTarget.big() || (!visitedCaves.containsKey(edgeTarget) || !smallVisitedTwice))) {
-                    LinkedList<DefaultEdge> newPath = new LinkedList<>(incompletePath);
-                    newPath.add(edge);
-                    incompletePaths.add(newPath);
+                    completedPaths++;
+                } else if (!edgeTarget.equals(startCave) && incompletePath.canVisit(edgeTarget)) {
+                    CavePath newPath = new CavePath(incompletePath);
+                    newPath.addCave(edgeTarget);
+                    incompletePaths.addFirst(newPath);
                 }
             }
         }
 
 
-        return completedPaths.size();
-    }
-
-    private record Cave(String name, boolean big) {
-        public Cave(String name) {
-            this(name, Character.isUpperCase(name.charAt(0)));
-        }
+        return completedPaths;
     }
 }

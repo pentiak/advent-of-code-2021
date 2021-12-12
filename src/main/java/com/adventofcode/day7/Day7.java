@@ -22,7 +22,7 @@ public class Day7 extends AbstractAdventDay {
     public Object part2() {
         double[] input = InputUtils.inputIntStream(inputPath).mapToDouble(i -> i).toArray();
         double mean = StatUtils.mean(input);
-        log.info("Mean: {}", mean);
+        log.trace("Mean: {}", mean);
         return costOfCeilOrFloor(input, mean);
     }
 
