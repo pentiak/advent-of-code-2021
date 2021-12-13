@@ -1,7 +1,9 @@
 package com.adventofcode.common
 
-
+import com.adventofcode.utils.InputUtils
 import spock.lang.Specification
+
+import java.nio.file.Files
 
 import static com.adventofcode.utils.AdventUtils.*
 
@@ -42,5 +44,7 @@ class AdventTest extends Specification {
         11  | 'input'   | 1749    | 285
         12  | 'example' | 226     | 3509
         12  | 'input'   | 5874    | 153592
+        13  | 'example' | 17      | Files.readString(InputUtils.resourcePath("day13Part2ExampleAnswer.txt"))
+        13  | 'input'   | 607     | Files.readString(InputUtils.resourcePath("day13Part2InputAnswer.txt"))
     }
 }
