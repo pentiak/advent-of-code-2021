@@ -46,5 +46,7 @@ class AdventTest extends Specification {
         12  | 'input'   | 5874    | 153592
         13  | 'example' | 17      | Files.readString(InputUtils.resourcePath("day13Part2ExampleAnswer.txt"))
         13  | 'input'   | 607     | Files.readString(InputUtils.resourcePath("day13Part2InputAnswer.txt"))
+        14  | 'example' | 1588    | 2188189693529
+        14  | 'input'   | 3408    | 3724343376942
     }
 }
