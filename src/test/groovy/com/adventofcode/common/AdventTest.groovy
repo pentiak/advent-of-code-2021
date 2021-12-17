@@ -1,14 +1,17 @@
 package com.adventofcode.common
 
 import com.adventofcode.utils.InputUtils
+import spock.lang.Execution
 import spock.lang.Specification
 
 import java.nio.file.Files
 
 import static com.adventofcode.utils.AdventUtils.*
+import static org.spockframework.runtime.model.parallel.ExecutionMode.CONCURRENT
 
 class AdventTest extends Specification {
 
+    @Execution(CONCURRENT)
     def "Should give correct results"() {
         given:
         def adventDay = newAdventDayInstance(day)
@@ -50,5 +53,7 @@ class AdventTest extends Specification {
         14  | 'input'   | 3408    | 3724343376942
         15  | 'example' | 40      | 315
         15  | 'input'   | 523     | 2876
+        16  | 'example' | 31      | 54
+        16  | 'input'   | 923     | 258888628940
     }
 }
